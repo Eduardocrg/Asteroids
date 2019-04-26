@@ -41,6 +41,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = HEIGHT - 10
         
         self.speedx= 0
+        
+        self.radius= 25
     
     def update(self):
         self.rect.x += self.speedx
@@ -69,8 +71,16 @@ class Mob(pygame.sprite.Sprite):
         self.rect.centerx = random.randrange([0, WIDTH])
         self.rect.bottom = random.randrange([-100, -40])
         
-        self.speedx= random.randrange([-3, 3])
-        self.speedy= random.randrange([2, 9])
+        self.speedx= random.randrange(-3, 3)
+        self.speedy= random.randrange(2, 9)
+        
+        self.radius= int(self.rect.width * .85 / 2)
+        
+        
+        
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
 
 
 # Inicialização do Pygame.
@@ -96,17 +106,17 @@ boom_sound= pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
 
 
 player=Player()
-mobb= Mob()
+mobs= Mob()
 
 mob= pygame.sprite.Group()
 all_sprites= pygame.sprite.Group()
 all_sprites.add(player)
 
 for a in range(8):
-    mob.add(mobb)
-    all_sprites.add(mobb)
+    mob.add(mobs)
+    all_sprites.add(mobs)
 
-all_sprites.add(mob)
+all_sprites.add(mobs)
 
 
 
@@ -141,6 +151,13 @@ try:
                     player.speedx= 0
             
         all_sprites.update()
+        
+        hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
+        if hits:
+            boom_sound.play()
+            clock.sleep(1)         ########## time ou clock?
+            
+            running = False
         
     
         # A cada loop, redesenha o fundo e os sprites
