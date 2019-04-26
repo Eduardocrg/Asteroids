@@ -7,6 +7,7 @@ import random
 
 # Estabelece a pasta que contem as figuras.
 img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__), 'ogg')
 
 # Dados gerais do jogo.
 WIDTH = 480 # Largura da tela
@@ -89,24 +90,31 @@ clock = pygame.time.Clock()
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
 background_rect = background.get_rect()
 
+pygame.mixer.music.load(path.join(snd_dir, 'tgfcoder-FrozenJam-SeamlessLoop.ogg'))
+pygame.mixer.music.set_volume(0.4)
+boom_sound= pygame.mixer.Sound(path.join(snd_dir, 'expl3.wav'))
+
+
 player=Player()
-    
+mobb= Mob()
 
 mob= pygame.sprite.Group()
 all_sprites= pygame.sprite.Group()
 all_sprites.add(player)
 
 for a in range(8):
-    mob.add(Mob())
-    all_sprites.add(Mob())
+    mob.add(mobb)
+    all_sprites.add(mobb)
 
 all_sprites.add(mob)
+
 
 
 # Comando para evitar travamentos.
 try:
     
     # Loop principal.
+    pygame.mixer.music.play(loops=-1)
     running = True
     while running:
         
