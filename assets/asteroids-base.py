@@ -3,6 +3,7 @@
 # Importando as bibliotecas necessárias.
 import pygame
 from os import path
+import random
 
 # Estabelece a pasta que contem as figuras.
 img_dir = path.join(path.dirname(__file__), 'img')
@@ -19,6 +20,57 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+
+
+class Player(pygame.sprite.Sprite):
+    
+    def __init__(self):
+        
+        pygame.sprite.Sprite.__init__(self)
+        player_img = pygame.image.load(path.join(img_dir, 'playerShip1_orange.png'))
+        self.image = player_img
+        
+        self.image = pygame.transform.scale(player_img, (50, 30))
+        
+        self.image.set_colorkey(BLACK)
+        
+        self.rect = self.image.get_rect()
+        
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = HEIGHT - 10
+        
+        self.speedx= 0
+    
+    def update(self):
+        self.rect.x += self.speedx
+        
+        if self.rect.right > WIDTH:
+            self.rect.right= WIDTH
+        if self.rect.left < 0:
+            self.rect.left= 0
+        
+
+
+class Mob(pygame.sprite.Sprite):
+    
+    def __init__(self):
+        
+        pygame.sprite.Sprite.__init__(self)
+        mob_img = pygame.image.load(path.join(img_dir, 'meteorBrown_med1.png'))
+        self.image = mob_img
+        
+        self.image = pygame.transform.scale(mob_img, (50, 30))
+        
+        self.image.set_colorkey(BLACK)
+        
+        self.rect = self.image.get_rect()
+        
+        self.rect.centerx = random.randrange([0, WIDTH])
+        self.rect.bottom = random.randrange([-100, -40])
+        
+        self.speedx= random.randrange([-3, 3])
+        self.speedy= random.randrange([2, 9])
+
 
 # Inicialização do Pygame.
 pygame.init()
@@ -37,6 +89,15 @@ clock = pygame.time.Clock()
 background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
 background_rect = background.get_rect()
 
+player=Player()
+mob= Mob()
+
+all_sprites= pygame.sprite.Group()
+all_sprites.add(player)
+
+all_sprites.add(mob)
+
+
 # Comando para evitar travamentos.
 try:
     
@@ -52,11 +113,27 @@ try:
             
             # Verifica se foi fechado
             if event.type == pygame.QUIT:
-                running = False
+                running= False
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    player.speedx= -8
+                if event.key == pygame.K_RIGHT:
+                    player.speedx= 8
+            
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    player.speedx= 0
+                if event.key == pygame.K_RIGHT:
+                    player.speedx= 0
+            
+        all_sprites.update()
+        
     
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
+        all_sprites.draw(screen)
         
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
