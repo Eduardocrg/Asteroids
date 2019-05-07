@@ -33,7 +33,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "playerShip1_orange.png")).convert()
+        
+        player_img = pygame.image.load(path.join(img_dir, "link_up.png")).convert()
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
@@ -81,7 +82,7 @@ class Mob(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        mob_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
+        mob_img = pygame.image.load(path.join(img_dir, "Goblin.gif")).convert()
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(mob_img, (50, 38))
@@ -125,8 +126,8 @@ class Bullet(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        bullet_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-        self.image = bullet_img
+        bullet_img = pygame.image.load(path.join(img_dir, "arrow.png")).convert()
+        self.image = pygame.transform.scale(bullet_img, (30, 54))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -161,7 +162,7 @@ pygame.display.set_caption("Navinha")
 clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
+background = pygame.image.load(path.join(img_dir, 'kokiriii.png')).convert()
 background_rect = background.get_rect()
 
 # Carrega os sons do jogo
