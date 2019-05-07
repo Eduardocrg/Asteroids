@@ -214,8 +214,15 @@ try:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
                     player.speedx = -8
+                    player_img = pygame.image.load(path.join(img_dir, "link_left.png")).convert()
+                    player.image = player_img
+                    player.image = pygame.transform.scale(player_img, (50, 38))
                 if event.key == pygame.K_RIGHT:
                     player.speedx = 8
+                    player_img = pygame.image.load(path.join(img_dir, "link_right.png")).convert()
+                    player.image = player_img
+                    player.image = pygame.transform.scale(player_img, (50, 38))
+
                 # Se for um espaço atira!
                 if event.key == pygame.K_SPACE:
                     bullet = Bullet(player.rect.centerx, player.rect.top)
@@ -224,8 +231,15 @@ try:
                     pew_sound.play()
                 if event.key == pygame.K_UP:
                     player.speedy = -8
+                    player_img = pygame.image.load(path.join(img_dir, "link_up.png")).convert()
+                    player.image = player_img
+                    player.image = pygame.transform.scale(player_img, (50, 38))
                 if event.key == pygame.K_DOWN:
                     player.speedy = 8
+                    player_img = pygame.image.load(path.join(img_dir, "link_down.png")).convert()
+                    player.image = player_img
+                    player.image = pygame.transform.scale(player_img, (50, 38))
+
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
                 # Dependendo da tecla, altera a velocidade.
